@@ -54,4 +54,5 @@ addopts = "-q --cov=apps --cov=packages --cov-report=term-missing"
 testpaths = [
   "apps/FastAPI/tests",
   "apps/Streamlit/tests",
+  "packages/core/tests",
 ]
