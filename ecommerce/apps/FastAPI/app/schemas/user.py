@@ -11,6 +11,11 @@ class LoginRequest(BaseModel):
     password: str = Field(min_length=8)
 
 
+class RecoverPasswordRequest(BaseModel):
+    email: str
+    new_password: str = Field(min_length=8)
+
+
 class UserResponse(BaseModel):
     id: str
     email: str
@@ -21,3 +26,7 @@ class AuthResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     user: UserResponse
+
+
+class MessageResponse(BaseModel):
+    message: str

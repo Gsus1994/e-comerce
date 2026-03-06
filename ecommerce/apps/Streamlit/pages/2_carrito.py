@@ -2,18 +2,11 @@ from __future__ import annotations
 
 from typing import Any
 
+from apps.Streamlit.auth_guard import init_session_state, require_auth
 from apps.Streamlit.client.api_client import ApiClient, ApiClientError, CartItemPayload
 from apps.Streamlit.settings import get_settings
 
 import streamlit as st
-
-
-def _init_state() -> None:
-    st.session_state.setdefault("cart", {})
-    st.session_state.setdefault("auth_token", "")
-    st.session_state.setdefault("auth_user", None)
-    st.session_state.setdefault("cart_validation", None)
-    st.session_state.setdefault("last_order", None)
 
 
 def _get_client() -> ApiClient:
@@ -35,7 +28,8 @@ def _cart_payload(cart: dict[str, dict[str, Any]]) -> list[CartItemPayload]:
     return payload
 
 
-_init_state()
+init_session_state()
+require_auth("Debes iniciar sesion para gestionar el carrito.")
 client = _get_client()
 cart: dict[str, dict[str, Any]] = st.session_state["cart"]
 

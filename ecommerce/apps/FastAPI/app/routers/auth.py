@@ -5,7 +5,14 @@ from uuid import uuid4
 
 from apps.FastAPI.app.auth_utils import create_access_token, hash_password, verify_password
 from apps.FastAPI.app.deps import get_session
-from apps.FastAPI.app.schemas.user import AuthResponse, LoginRequest, RegisterRequest, UserResponse
+from apps.FastAPI.app.schemas.user import (
+    AuthResponse,
+    LoginRequest,
+    MessageResponse,
+    RecoverPasswordRequest,
+    RegisterRequest,
+    UserResponse,
+)
 from packages.core.infrastructure.db.models import UserModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -68,3 +75,16 @@ def login(payload: LoginRequest, session: SessionDep) -> AuthResponse:
         )
 
     return _to_auth_response(user_model)
+
+
+@router.post("/recover-password", response_model=MessageResponse)
+def recover_password(payload: RecoverPasswordRequest, session: SessionDep) -> MessageResponse:
+    email = payload.email.strip().lower()
+    user_model = session.scalar(select(UserModel).where(UserModel.email == email))
+
+    if user_model is not None:
+        user_model.hashed_password = hash_password(payload.new_password)
+        session.add(user_model)
+        session.commit()
+
+    return MessageResponse(message="If the account exists, password has been updated.")

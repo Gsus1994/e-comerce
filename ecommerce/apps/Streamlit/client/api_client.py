@@ -103,6 +103,16 @@ class ApiClient:
             raise ApiClientError("Unexpected response format for login")
         return result
 
+    def recover_password(self, *, email: str, new_password: str) -> dict[str, Any]:
+        result = self._request(
+            "POST",
+            "/v1/auth/recover-password",
+            json_body={"email": email, "new_password": new_password},
+        )
+        if not isinstance(result, dict):
+            raise ApiClientError("Unexpected response format for recover password")
+        return result
+
     def validate_cart(self, *, items: list[CartItemPayload]) -> dict[str, Any]:
         result = self._request(
             "POST",

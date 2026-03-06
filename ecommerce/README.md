@@ -74,6 +74,15 @@ UI:
 streamlit run apps/Streamlit/app.py --server.port 8501
 ```
 
+### Poblar DB con datos aleatorios
+
+```bash
+cd ecommerce
+python scripts/seed_random_data.py 50 --users 10 --password demo12345
+```
+
+Siendo `50` el numero de productos aleatorios a crear.
+
 ## Calidad y tests
 
 ```bash

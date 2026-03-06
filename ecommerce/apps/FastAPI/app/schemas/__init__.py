@@ -12,7 +12,14 @@ from apps.FastAPI.app.schemas.product import (
     ProductPaginationMeta,
     ProductResponse,
 )
-from apps.FastAPI.app.schemas.user import AuthResponse, LoginRequest, RegisterRequest, UserResponse
+from apps.FastAPI.app.schemas.user import (
+    AuthResponse,
+    LoginRequest,
+    MessageResponse,
+    RecoverPasswordRequest,
+    RegisterRequest,
+    UserResponse,
+)
 
 __all__ = [
     "AuthResponse",
@@ -22,11 +29,13 @@ __all__ = [
     "CartValidationItem",
     "CreateOrderRequest",
     "LoginRequest",
+    "MessageResponse",
     "OrderItemResponse",
     "OrderResponse",
     "ProductListResponse",
     "ProductPaginationMeta",
     "ProductResponse",
+    "RecoverPasswordRequest",
     "RegisterRequest",
     "UserResponse",
 ]

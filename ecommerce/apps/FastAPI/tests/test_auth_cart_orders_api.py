@@ -32,6 +32,32 @@ def test_auth_register_and_login(client: TestClient) -> None:
     assert login_response.json()["access_token"]
 
 
+def test_auth_recover_password_updates_credentials(client: TestClient) -> None:
+    register_response = client.post(
+        "/v1/auth/register",
+        json={"email": "recover@example.com", "password": "strongpass1"},
+    )
+    assert register_response.status_code == 201
+
+    recover_response = client.post(
+        "/v1/auth/recover-password",
+        json={"email": "recover@example.com", "new_password": "newstrongpass1"},
+    )
+    assert recover_response.status_code == 200
+
+    old_login_response = client.post(
+        "/v1/auth/login",
+        json={"email": "recover@example.com", "password": "strongpass1"},
+    )
+    assert old_login_response.status_code == 401
+
+    new_login_response = client.post(
+        "/v1/auth/login",
+        json={"email": "recover@example.com", "password": "newstrongpass1"},
+    )
+    assert new_login_response.status_code == 200
+
+
 def test_cart_validate_and_order_flow(client: TestClient, db_session: Session) -> None:
     db_session.add(
         ProductModel(
