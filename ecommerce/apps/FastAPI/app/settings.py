@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from typing import Annotated
 
 from pydantic import Field, field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -12,7 +13,7 @@ class Settings(BaseSettings):
     database_url: str = Field(default="sqlite+pysqlite:///./ecommerce.db", alias="DATABASE_URL")
     jwt_secret: str = Field(default="change_this_secret", alias="JWT_SECRET")
     env: str = Field(default="development", alias="ENV")
-    cors_origins: list[str] = Field(
+    cors_origins: Annotated[list[str], NoDecode] = Field(
         default_factory=lambda: ["http://localhost:3000", "http://localhost:8501"],
         alias="CORS_ORIGINS",
     )
