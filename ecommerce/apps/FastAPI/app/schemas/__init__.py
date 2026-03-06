@@ -3,5 +3,14 @@ from apps.FastAPI.app.schemas.product import (
     ProductPaginationMeta,
     ProductResponse,
 )
+from apps.FastAPI.app.schemas.user import AuthResponse, LoginRequest, RegisterRequest, UserResponse
 
-__all__ = ["ProductListResponse", "ProductPaginationMeta", "ProductResponse"]
+__all__ = [
+    "AuthResponse",
+    "LoginRequest",
+    "ProductListResponse",
+    "ProductPaginationMeta",
+    "ProductResponse",
+    "RegisterRequest",
+    "UserResponse",
+]
