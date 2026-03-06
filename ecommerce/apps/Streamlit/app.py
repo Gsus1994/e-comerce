@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from apps.Streamlit.settings import get_settings
-
 import streamlit as st
+from apps.Streamlit.settings import get_settings
 
 
 def init_session_state() -> None:

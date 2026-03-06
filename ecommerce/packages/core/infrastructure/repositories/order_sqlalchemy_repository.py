@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+from sqlalchemy import select
+from sqlalchemy.orm import Session, selectinload
+
 from packages.core.application.ports import OrderRepository
 from packages.core.domain.entities import Order, OrderItem
 from packages.core.infrastructure.db.models import OrderItemModel, OrderModel
-from sqlalchemy import select
-from sqlalchemy.orm import Session, selectinload
 
 
 class OrderSqlAlchemyRepository(OrderRepository):

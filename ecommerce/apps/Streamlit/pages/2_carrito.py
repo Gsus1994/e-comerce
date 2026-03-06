@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from apps.Streamlit.client.api_client import ApiClient, ApiClientError
+from apps.Streamlit.client.api_client import ApiClient, ApiClientError, CartItemPayload
 from apps.Streamlit.settings import get_settings
 
 import streamlit as st
@@ -20,15 +20,19 @@ def _get_client() -> ApiClient:
     return ApiClient(base_url=get_settings().api_base_url)
 
 
-def _cart_payload(cart: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
-    return [
-        {
-            "product_id": str(item["product_id"]),
-            "qty": int(item["qty"]),
-        }
-        for item in cart.values()
-        if int(item["qty"]) > 0
-    ]
+def _cart_payload(cart: dict[str, dict[str, Any]]) -> list[CartItemPayload]:
+    payload: list[CartItemPayload] = []
+    for item in cart.values():
+        qty = int(item["qty"])
+        if qty <= 0:
+            continue
+        payload.append(
+            CartItemPayload(
+                product_id=str(item["product_id"]),
+                qty=qty,
+            ),
+        )
+    return payload
 
 
 _init_state()

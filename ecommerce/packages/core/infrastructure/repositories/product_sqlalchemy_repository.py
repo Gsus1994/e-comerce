@@ -2,11 +2,12 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
+from sqlalchemy import func, or_, select
+from sqlalchemy.orm import Session
+
 from packages.core.application.ports import ProductRepository
 from packages.core.domain.entities import Product
 from packages.core.infrastructure.db.models import ProductModel
-from sqlalchemy import func, or_, select
-from sqlalchemy.orm import Session
 
 
 class ProductSqlAlchemyRepository(ProductRepository):

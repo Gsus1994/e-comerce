@@ -6,8 +6,8 @@ from secrets import compare_digest, token_hex
 from typing import Any, cast
 
 import jwt
-from apps.FastAPI.app.settings import get_settings
 
+from apps.FastAPI.app.settings import get_settings
 from fastapi import HTTPException, status
 
 ALGORITHM = "HS256"

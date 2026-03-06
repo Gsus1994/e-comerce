@@ -3,7 +3,6 @@ from __future__ import annotations
 from collections.abc import Generator
 from typing import Annotated
 
-from apps.FastAPI.app.auth_utils import decode_access_token
 from packages.core.domain.entities import User
 from packages.core.infrastructure.db.models import UserModel
 from packages.core.infrastructure.db.session import SessionLocal
@@ -14,6 +13,7 @@ from packages.core.infrastructure.repositories import (
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from apps.FastAPI.app.auth_utils import decode_access_token
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 

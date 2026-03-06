@@ -17,7 +17,8 @@ target_metadata = Base.metadata
 
 
 def _database_url() -> str:
-    return os.getenv("DATABASE_URL", config.get_main_option("sqlalchemy.url"))
+    fallback_url = config.get_main_option("sqlalchemy.url") or "sqlite+pysqlite:///./ecommerce.db"
+    return os.getenv("DATABASE_URL") or fallback_url
 
 
 def run_migrations_offline() -> None:
