@@ -3,12 +3,34 @@ name: CI
 'on':
   push:
     branches:
-      - "**"
-  pull_request: {}
+      - dev
+      - main
+    paths:
+      - "ecommerce/**"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    branches:
+      - dev
+      - main
+    paths:
+      - "ecommerce/**"
+      - ".github/workflows/ci.yml"
+  workflow_dispatch: {}
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   lint-type-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: ecommerce
 
     steps:
       - name: Checkout
@@ -18,25 +40,22 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: ecommerce/pyproject.toml
 
       - name: Install dependencies
-        working-directory: ecommerce
         run: |
           python -m pip install --upgrade pip
-          pip install -e .[dev]
+          pip install -e ".[dev]"
 
       - name: Ruff format check
-        working-directory: ecommerce
         run: ruff format --check .
 
       - name: Ruff lint
-        working-directory: ecommerce
         run: ruff check .
 
       - name: MyPy
-        working-directory: ecommerce
         run: mypy apps packages
 
       - name: Pytest
-        working-directory: ecommerce
         run: pytest

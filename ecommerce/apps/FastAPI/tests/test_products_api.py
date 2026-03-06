@@ -39,3 +39,23 @@ def test_get_product_by_id_returns_not_found_for_unknown_id(client: TestClient) 
     response = client.get("/v1/products/unknown")
 
     assert response.status_code == 404
+
+
+def test_get_product_by_id_returns_product(client: TestClient, db_session: Session) -> None:
+    db_session.add(
+        ProductModel(
+            id="p-3",
+            name="Keyboard",
+            description="Mechanical keyboard",
+            price=Decimal("80.00"),
+            stock=8,
+        )
+    )
+    db_session.commit()
+
+    response = client.get("/v1/products/p-3")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["id"] == "p-3"
+    assert payload["name"] == "Keyboard"
