@@ -5,9 +5,9 @@ from types import SimpleNamespace
 from typing import Any
 
 import pytest
-from apps.FastAPI.app import auth_utils
-
 from fastapi import HTTPException
+
+from apps.FastAPI.app import auth_utils
 
 
 @dataclass(frozen=True, slots=True)
@@ -98,6 +98,66 @@ def test_decode_jwt_uses_callable_decode(monkeypatch: pytest.MonkeyPatch) -> Non
     assert captured["algorithms"] == [auth_utils.ALGORITHM]
 
 
+def test_encode_jwt_falls_back_to_jwt_class(monkeypatch: pytest.MonkeyPatch) -> None:
+    captured: dict[str, Any] = {}
+
+    class FakeOctetJWK:
+        def __init__(self, key_bytes: bytes) -> None:
+            captured["key_bytes"] = key_bytes
+
+    class FakeJWT:
+        def encode(self, payload: dict[str, Any], *, key: Any, alg: str) -> str:
+            captured["payload"] = payload
+            captured["key"] = key
+            captured["alg"] = alg
+            return "fallback-encoded-token"
+
+    fake_jwt = SimpleNamespace(
+        encode=None,
+        JWT=lambda: FakeJWT(),
+        jwk=SimpleNamespace(OctetJWK=FakeOctetJWK),
+    )
+    monkeypatch.setattr(auth_utils, "jwt", fake_jwt)
+
+    token = auth_utils._encode_jwt({"sub": "u-1"}, "secret")
+
+    assert token == "fallback-encoded-token"
+    assert captured["payload"] == {"sub": "u-1"}
+    assert isinstance(captured["key"], FakeOctetJWK)
+    assert captured["key_bytes"] == b"secret"
+    assert captured["alg"] == auth_utils.ALGORITHM
+
+
+def test_decode_jwt_falls_back_to_jwt_class(monkeypatch: pytest.MonkeyPatch) -> None:
+    captured: dict[str, Any] = {}
+
+    class FakeOctetJWK:
+        def __init__(self, key_bytes: bytes) -> None:
+            captured["key_bytes"] = key_bytes
+
+    class FakeJWT:
+        def decode(self, token: str, *, key: Any, algorithms: set[str]) -> dict[str, Any]:
+            captured["token"] = token
+            captured["key"] = key
+            captured["algorithms"] = algorithms
+            return {"sub": "u-1"}
+
+    fake_jwt = SimpleNamespace(
+        decode=None,
+        JWT=lambda: FakeJWT(),
+        jwk=SimpleNamespace(OctetJWK=FakeOctetJWK),
+    )
+    monkeypatch.setattr(auth_utils, "jwt", fake_jwt)
+
+    payload = auth_utils._decode_jwt("token", "secret")
+
+    assert payload == {"sub": "u-1"}
+    assert captured["token"] == "token"
+    assert isinstance(captured["key"], FakeOctetJWK)
+    assert captured["key_bytes"] == b"secret"
+    assert captured["algorithms"] == {auth_utils.ALGORITHM}
+
+
 def test_jwt_error_types_includes_root_level_pyjwt_error(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -113,3 +173,26 @@ def test_jwt_error_types_includes_root_level_pyjwt_error(
     error_types = auth_utils._jwt_error_types()
 
     assert RootPyJwtError in error_types
+
+
+def test_jwt_error_types_includes_module_level_errors(monkeypatch: pytest.MonkeyPatch) -> None:
+    class ModuleJwtError(Exception):
+        pass
+
+    class ModuleDecodeError(Exception):
+        pass
+
+    fake_jwt = SimpleNamespace(
+        PyJWTError=None,
+        exceptions=SimpleNamespace(
+            JWTException=ModuleJwtError,
+            JWTDecodeError=ModuleDecodeError,
+            JWSDecodeError="not-an-exception-type",
+        ),
+    )
+    monkeypatch.setattr(auth_utils, "jwt", fake_jwt)
+
+    error_types = auth_utils._jwt_error_types()
+
+    assert ModuleJwtError in error_types
+    assert ModuleDecodeError in error_types

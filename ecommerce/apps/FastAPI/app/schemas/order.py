@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from packages.core.domain.entities import Order, OrderItem
 from pydantic import BaseModel, Field
+
+from packages.core.domain.entities import Order, OrderItem
 
 
 class CartItemRequest(BaseModel):

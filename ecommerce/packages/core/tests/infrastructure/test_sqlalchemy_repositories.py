@@ -3,15 +3,16 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from decimal import Decimal
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.pool import StaticPool
+
 from packages.core.domain.entities import Order, OrderItem
 from packages.core.infrastructure.db.models import Base, ProductModel, UserModel
 from packages.core.infrastructure.repositories import (
     OrderSqlAlchemyRepository,
     ProductSqlAlchemyRepository,
 )
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
-from sqlalchemy.pool import StaticPool
 
 
 def _session() -> Session:

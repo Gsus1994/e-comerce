@@ -3,6 +3,8 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import Annotated
 
+from fastapi import APIRouter, Depends, HTTPException, status
+
 from apps.FastAPI.app.deps import get_product_repo
 from apps.FastAPI.app.schemas.order import (
     CartValidateRequest,
@@ -13,8 +15,6 @@ from packages.core.application.use_cases import add_to_cart
 from packages.core.domain.entities import Cart
 from packages.core.domain.exceptions import ValidationError
 from packages.core.infrastructure.repositories import ProductSqlAlchemyRepository
-
-from fastapi import APIRouter, Depends, HTTPException, status
 
 router = APIRouter(prefix="/v1/cart", tags=["cart"])
 

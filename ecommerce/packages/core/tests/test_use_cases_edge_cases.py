@@ -6,6 +6,7 @@ from decimal import Decimal
 from typing import cast
 
 import pytest
+
 from packages.core.application.use_cases import add_to_cart, create_order, list_products
 from packages.core.domain.entities import Cart, CartItem, Order, Product
 from packages.core.domain.exceptions import ValidationError

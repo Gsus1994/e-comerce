@@ -1,10 +1,10 @@
 from __future__ import annotations
 
+import streamlit as st
+
 from apps.Streamlit.auth_guard import clear_auth_session, init_session_state, require_auth
 from apps.Streamlit.client.api_client import ApiClient, ApiClientError
 from apps.Streamlit.settings import get_settings
-
-import streamlit as st
 
 
 def _get_client() -> ApiClient:

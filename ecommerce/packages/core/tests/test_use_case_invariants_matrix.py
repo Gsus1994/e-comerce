@@ -4,6 +4,7 @@ from collections.abc import Sequence
 from decimal import Decimal
 
 import pytest
+
 from packages.core.application.use_cases import add_to_cart, create_order, list_products
 from packages.core.domain.entities import Cart, CartItem, Order, Product
 

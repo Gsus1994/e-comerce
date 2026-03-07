@@ -3,16 +3,16 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import pytest
+from fastapi import HTTPException
+from fastapi.security import HTTPAuthorizationCredentials
+from sqlalchemy.orm import Session
+
 from apps.FastAPI.app import deps
 from packages.core.infrastructure.db.models import UserModel
 from packages.core.infrastructure.repositories import (
     OrderSqlAlchemyRepository,
     ProductSqlAlchemyRepository,
 )
-from sqlalchemy.orm import Session
-
-from fastapi import HTTPException
-from fastapi.security import HTTPAuthorizationCredentials
 
 
 @dataclass(slots=True)

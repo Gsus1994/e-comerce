@@ -3,6 +3,10 @@ from __future__ import annotations
 from typing import Annotated
 from uuid import uuid4
 
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
 from apps.FastAPI.app.auth_utils import create_access_token, hash_password, verify_password
 from apps.FastAPI.app.deps import get_session
 from apps.FastAPI.app.schemas.user import (
@@ -14,10 +18,6 @@ from apps.FastAPI.app.schemas.user import (
     UserResponse,
 )
 from packages.core.infrastructure.db.models import UserModel
-from sqlalchemy import select
-from sqlalchemy.orm import Session
-
-from fastapi import APIRouter, Depends, HTTPException, status
 
 router = APIRouter(prefix="/v1/auth", tags=["auth"])
 

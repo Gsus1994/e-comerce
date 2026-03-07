@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pytest
+
 from apps.Streamlit.settings import get_settings
 
 

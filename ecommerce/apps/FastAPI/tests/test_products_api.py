@@ -1,9 +1,9 @@
 from decimal import Decimal
 
-from packages.core.infrastructure.db.models import ProductModel
+from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from fastapi.testclient import TestClient
+from packages.core.infrastructure.db.models import ProductModel
 
 
 def test_list_products_returns_paginated_items(client: TestClient, db_session: Session) -> None:

@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Generator
 
 import pytest
+
 from apps.FastAPI.app.settings import Settings, get_settings
 
 

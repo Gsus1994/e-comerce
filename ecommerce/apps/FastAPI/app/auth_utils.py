@@ -6,9 +6,9 @@ from secrets import compare_digest, token_hex
 from typing import Any, cast
 
 import jwt
+from fastapi import HTTPException, status
 
 from apps.FastAPI.app.settings import get_settings
-from fastapi import HTTPException, status
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60

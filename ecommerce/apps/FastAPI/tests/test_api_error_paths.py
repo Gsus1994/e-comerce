@@ -3,12 +3,12 @@ from __future__ import annotations
 from decimal import Decimal
 from types import SimpleNamespace
 
+from fastapi.testclient import TestClient
+from sqlalchemy.orm import Session
+
 from apps.FastAPI.app.deps import get_current_user
 from apps.FastAPI.app.main import app
 from packages.core.infrastructure.db.models import ProductModel
-from sqlalchemy.orm import Session
-
-from fastapi.testclient import TestClient
 
 
 def _register_user(client: TestClient, email: str = "user@example.com") -> str:

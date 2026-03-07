@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from packages.core.domain.entities import Product
 from pydantic import BaseModel
+
+from packages.core.domain.entities import Product
 
 
 class ProductResponse(BaseModel):

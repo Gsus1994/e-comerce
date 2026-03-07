@@ -2,6 +2,7 @@ from collections.abc import Sequence
 from decimal import Decimal
 
 import pytest
+
 from packages.core.application.use_cases import create_order
 from packages.core.domain.entities import CartItem, Order, Product
 from packages.core.domain.exceptions import NotFound, StockInsufficient

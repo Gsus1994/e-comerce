@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Annotated
 
+from fastapi import APIRouter, Depends, HTTPException, Query, status
+
 from apps.FastAPI.app.deps import get_product_repo
 from apps.FastAPI.app.schemas.product import (
     ProductListResponse,
@@ -10,8 +12,6 @@ from apps.FastAPI.app.schemas.product import (
 )
 from packages.core.application.use_cases import list_products as list_products_use_case
 from packages.core.infrastructure.repositories import ProductSqlAlchemyRepository
-
-from fastapi import APIRouter, Depends, HTTPException, Query, status
 
 router = APIRouter(prefix="/v1/products", tags=["products"])
 

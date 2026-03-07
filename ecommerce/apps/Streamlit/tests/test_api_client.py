@@ -4,6 +4,7 @@ from collections.abc import Callable
 from typing import Any
 
 import pytest
+
 from apps.Streamlit.client import api_client
 from apps.Streamlit.client.api_client import ApiClient, ApiClientError
 

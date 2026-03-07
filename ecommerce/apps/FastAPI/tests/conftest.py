@@ -3,14 +3,14 @@ from __future__ import annotations
 from collections.abc import Generator
 
 import pytest
-from apps.FastAPI.app.deps import get_session
-from apps.FastAPI.app.main import app
-from packages.core.infrastructure.db.models import Base
+from fastapi.testclient import TestClient
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from fastapi.testclient import TestClient
+from apps.FastAPI.app.deps import get_session
+from apps.FastAPI.app.main import app
+from packages.core.infrastructure.db.models import Base
 
 
 @pytest.fixture

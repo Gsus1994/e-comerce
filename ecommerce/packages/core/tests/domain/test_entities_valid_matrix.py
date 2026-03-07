@@ -4,6 +4,7 @@ from decimal import Decimal
 from typing import cast
 
 import pytest
+
 from packages.core.domain.entities import CartItem, Order, OrderItem, Product, User
 
 

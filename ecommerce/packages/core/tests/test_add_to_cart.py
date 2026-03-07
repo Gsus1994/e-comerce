@@ -1,4 +1,5 @@
 import pytest
+
 from packages.core.application.use_cases import add_to_cart
 from packages.core.domain.entities import Cart
 from packages.core.domain.exceptions import ValidationError

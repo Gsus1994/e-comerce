@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import streamlit as st
+
 from apps.Streamlit.auth_guard import init_session_state
 from apps.Streamlit.settings import get_settings
 

@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from typing import Annotated
 
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
+
 from apps.FastAPI.app.deps import (
     get_current_user,
     get_order_repo,
@@ -16,9 +19,6 @@ from packages.core.infrastructure.repositories import (
     OrderSqlAlchemyRepository,
     ProductSqlAlchemyRepository,
 )
-from sqlalchemy.orm import Session
-
-from fastapi import APIRouter, Depends, HTTPException, status
 
 router = APIRouter(prefix="/v1/orders", tags=["orders"])
 
