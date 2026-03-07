@@ -1,3 +1,5 @@
 # e-comerce
 
-práctica de buenas prácticas
+cd ecommerce/
+
+Y leer el README.md   (^.^)/
